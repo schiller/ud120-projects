@@ -44,12 +44,25 @@ data_dict = pickle.load( open("../final_project/final_project_dataset.pkl", "r")
 data_dict.pop("TOTAL", 0)
 
 
+# eso = []
+# for key in data_dict:
+#     # x = data_dict[key]["exercised_stock_options"]
+#     x = data_dict[key]["salary"]
+#     if (x != "NaN"):
+#         eso.append(x)
+# eso.sort()
+# print eso[0]
+# print eso[-1]
+
+
 ### the input features we want to use 
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
+feature_3 = "total_payments"
 poi  = "poi"
 features_list = [poi, feature_1, feature_2]
+# features_list = [poi, feature_1, feature_2, feature_3]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
 
@@ -64,9 +77,9 @@ plt.show()
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
-
-
-
+from sklearn.cluster import KMeans
+kmeans = KMeans(n_clusters = 2).fit(finance_features)
+pred = kmeans.predict(finance_features)
 
 ### rename the "name" parameter when you change the number of features
 ### so that the figure gets saved to a different file
